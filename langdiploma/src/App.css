@@ -1,0 +1,62 @@
+body {
+  background: #f5f7fb;
+  font-family: Arial, sans-serif;
+}
+
+.translator-container {
+  width: 70%;
+  margin: 40px auto;
+  text-align: center;
+}
+
+.language-row {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+select {
+  padding: 10px;
+  font-size: 16px;
+}
+
+.swap-btn {
+  padding: 10px 15px;
+  font-size: 20px;
+  cursor: pointer;
+  background: #e3e3e3;
+  border: none;
+  border-radius: 5px;
+}
+
+.textareas {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+textarea {
+  width: 45%;
+  height: 200px;
+  padding: 15px;
+  font-size: 16px;
+  resize: none;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.translate-btn {
+  margin-top: 20px;
+  padding: 12px 25px;
+  font-size: 18px;
+  background: #4a7dfc;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.translate-btn:hover {
+  background: #3a6ae0;
+}
