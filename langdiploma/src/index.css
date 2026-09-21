@@ -46,9 +46,9 @@ body {
 --------------------------------*/
 header {
   background: #ffffff;
-  padding: 15px 25px;
+  padding: 15px 15px;
   border-bottom: 1px solid #ddd;
-  display: flex;
+
   justify-content: space-between;
   align-items: center;
 }
@@ -63,13 +63,39 @@ nav a {
   text-decoration: none;
   color: #333;
   font-weight: 500;
+  border-radius: 5%;
   
 }
 
-nav a:hover {
+.nav-pills {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  padding: 6px;
+  border-radius: 9999px;
+}
+/*  pills nav here*/
+.nav-pill {
+  padding: 8px 18px;
+  border-radius: 9999px;
+  text-decoration: none;
+  color: #9a9a9e;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.nav-pill:hover {
   color: #007bff;
 }
 
+.nav-pill.active {
+  text-decoration: underline;
+  color: #007bff;
+  background: #E8F9FF;
+}
 /* ------------------------------
    BUTTONS
 --------------------------------*/
@@ -208,4 +234,13 @@ input:focus, textarea:focus {
   nav a {
     margin-left: 10px;
   }
+}
+/* OVERLAY */
+.overlay {
+  position: fixed;   
+  inset: 0;          
+  background: rgba(0,0,0,0.5); 
+  display: flex;
+  align-items: center;
+  justify-content: center; 
 }

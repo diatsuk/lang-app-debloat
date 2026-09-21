@@ -19,63 +19,98 @@ export default function Flashcards() {
   const [studyCards, setStudyCards] = useState([]);
   const [studyIndex, setStudyIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
-
-
+  
   useEffect(() => {
+  
+  
     if (mode === "manual") {
-      fetch(`${API_URL}/api/flashcards/manual`, {
-        credentials: "include"
-      })
-        .then(res => res.json())
-        .then(setManualCards)
-        .catch(err => console.error("Manual fetch error:", err));
+      const load = async () => {
+        try {
+          const res = await fetch(`${API_URL}/api/flashcards/manual`, {
+            credentials: "include"
+          });
+          if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+          const data = await res.json();
+          setManualCards(data);
+        } catch (err) {
+          console.error("Manual fetch error:", err);
+          setManualCards([]);
+        }
+      };
+      load();
     }
 
     if (mode === "ai") {
-      fetch(`${API_URL}/api/flashcards/ai`, {
-        credentials: "include"
-      })
-        .then(res => res.json())
-        .then(setAiCards)
-        .catch(err => console.error("AI fetch error:", err));
+      const load = async () => {
+        try {
+          const res = await fetch(`${API_URL}/api/flashcards/ai`, {
+            credentials: "include"
+          });
+          if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+          const data = await res.json();
+          setAiCards(data);
+        } catch (err) {
+          console.error("AI fetch error:", err);
+          setAiCards([]);
+        }
+      };
+      load();
     }
 
     if (mode === "saved") {
-      fetch(`${API_URL}/api/flashcards/from-saved`, {
-        credentials: "include"
-      })
-        .then(res => res.json())
-        .then(setSavedCards)
-        .catch(err => console.error("Saved fetch error:", err));
+      const load = async () => {
+        try {
+          const res = await fetch(`${API_URL}/api/flashcards/from-saved`, {
+            credentials: "include"
+          });
+          if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+          const data = await res.json();
+          setSavedCards(data);
+        } catch (err) {
+          console.error("Saved fetch error:", err);
+          setSavedCards([]);
+        }
+      };
+      load();
     }
   }, [mode]);
 
   const createManualCard = async () => {
-    const res = await fetch(`${API_URL}/api/flashcards/manual`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ front: manualFront, back: manualBack })
-    });
+    try {
+      const res = await fetch(`${API_URL}/api/flashcards/manual`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ front: manualFront, back: manualBack })
+      });
+      if (!res.ok) throw new Error(`Request failed: ${res.status}`);
 
-    const data = await res.json();
-    setManualCards(prev => [data, ...prev]);
-    setManualFront("");
-    setManualBack("");
+      const data = await res.json();
+      setManualCards(prev => [data, ...prev]);
+      setManualFront("");
+      setManualBack("");
+    } catch (err) {
+      console.error("Create manual card error:", err);
+    }
   };
 
 
   const generateAICard = async () => {
-    const res = await fetch(`${API_URL}/api/flashcards/ai`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ word: aiWord })
-    });
+    try {
+      const res = await fetch(`${API_URL}/api/flashcards/ai`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ word: aiWord })
+      });
+      if (!res.ok) throw new Error(`Request failed: ${res.status}`);
 
-    const data = await res.json();
-    setAiCards(prev => [data, ...prev]);
-    setAiWord("");
+      const data = await res.json();
+      setAiCards(prev => [data, ...prev]);
+      setAiWord("");
+    } catch (err) {
+      console.error("Generate AI card error:", err);
+    }
   };
 
   return (

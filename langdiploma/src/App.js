@@ -10,9 +10,8 @@ import SavedWords from './pages/SavedWords';
 import Login from './pages/Login';
 import FlashCardsPage from "./pages/Flashcards";
 import ContextExplainerPage from "./pages/Context";
-
 function WelcomeBanner({ user }) {
-  if (!user) return <h2>Welcome,</h2>;
+  if (!user) return <h2></h2>;
   return (
     <div style={{ backgroundColor: '#e0f7fa', padding: '10px', borderRadius: '5px', marginBottom: '15px' }}>
       <h2>Welcome, {user.name || user.email}!</h2>
@@ -38,19 +37,35 @@ useEffect(() => {
 }, []);
 
 
-  if (loadingUser) return <p>Loading...</p>;
+  if (loadingUser) return (
+    <div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    textAlign: "center",
+  }}
+>
+      <p>Loading...</p> 
+      <p>Can take up for 30 seconds due to free hosting</p>
+      <div class="tenor-gif-embed" data-postid="7983494771722142743" data-share-method="host" data-aspect-ratio="0.809237" data-width="30%"><a href="https://tenor.com/view/cat-sitting-cat-sitting-gif-7983494771722142743">
+      Cat Waiting Patiently</a>
+      </div> 
+      <script type="text/javascript" async src="https://tenor.com/embed.js"></script> 
+    </div>);
 
   return (
     <Router>
       <Header /> 
       <WelcomeBanner user={user} />
-      { <Login />}
+    {/* <Login />*/}
       <Routes> 
         <Route path="/" element={<Translator />} /> 
         <Route path="/chat" element={<Chatbot />} />
         <Route path="/FlashCardsPage" element={<FlashCardsPage />} />
         <Route path="/SavedWords" element={<SavedWords />} />
         <Route path="/ContextExplainerPage" element={<ContextExplainerPage />} />
+        <Route path="/Login" element={<Login />} />
       </Routes> 
     </Router>
   );
