@@ -18,7 +18,7 @@ function SavedWords() {
           credentials: 'include',
         });
         if (!res.ok) {
-          const msg = `Failed to fetch saved words (${res.status})`;
+          const msg = `Please Sign In, Failed to fetch saved words (${res.status})`;
           setError(msg);
           setWords([]);
           return;
@@ -48,7 +48,7 @@ function SavedWords() {
         body: JSON.stringify({ word: newWord, translation, notes }),
       });
       if (!res.ok) {
-        const msg = `Failed to add word (${res.status})`;
+        const msg = `Please Sign In, to save`;
         setError(msg);
         return;
       }
