@@ -11,16 +11,13 @@ import Login from './pages/Login';
 import FlashCardsPage from "./pages/Flashcards";
 import ContextExplainerPage from "./pages/Context";
 function WelcomeBanner({ user }) {
-  if (!user) return <h2></h2>;
+  if (!user) return null;
   return (
     <div style={{ backgroundColor: '#e0f7fa', padding: '10px', borderRadius: '5px', marginBottom: '15px' }}>
       <h2>Welcome, {user.name || user.email}!</h2>
     </div>
   );
 }
-
-
-
 function App() { 
   const [user, setUser] = useState(null); 
   const [loadingUser, setLoadingUser] = useState(true); 
