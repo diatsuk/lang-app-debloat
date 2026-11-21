@@ -18,7 +18,7 @@ function SavedWords() {
           credentials: 'include',
         });
         if (!res.ok) {
-          const msg = `Please Sign In, Failed to fetch saved words (${res.status})`;
+          const msg = `Please Sign In, Failed to fetch saved words`;
           setError(msg);
           setWords([]);
           return;

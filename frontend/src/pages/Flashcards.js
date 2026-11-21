@@ -1,52 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { API_URL } from "../api";
 
+const STORAGE_KEY = "manualFlashcards";
+
+const SAMPLE_CARDS = [
+  { _id: "sample-1", front: "hola", back: "hello" },
+  { _id: "sample-2", front: "gracias", back: "thank you" },
+  { _id: "sample-3", front: "perro", back: "dog" },
+];
+
 export default function Flashcards() {
   const [mode, setMode] = useState("manual");
 
-
   const [manualFront, setManualFront] = useState("");
   const [manualBack, setManualBack] = useState("");
-  const [manualCards, setManualCards] = useState([]);
-
+  const [manualCards, setManualCards] = useState(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : SAMPLE_CARDS;
+  });
 
   const [aiWord, setAiWord] = useState("");
   const [aiCards, setAiCards] = useState([]);
 
   const [savedCards, setSavedCards] = useState([]);
 
-
   const [studyCards, setStudyCards] = useState([]);
   const [studyIndex, setStudyIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
-  
-  useEffect(() => {
-  
-  
-    if (mode === "manual") {
-      const load = async () => {
-        try {
-          const res = await fetch(`${API_URL}/api/flashcards/manual`, {
-            credentials: "include"
-          });
-          if (!res.ok) throw new Error(`Request failed: ${res.status}`);
-          const data = await res.json();
-          setManualCards(data);
-        } catch (err) {
-          console.error("Manual fetch error:", err);
-          setManualCards([]);
-        }
-      };
-      load();
-    }
 
+  // Save manual cards to this browser whenever they change
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(manualCards));
+  }, [manualCards]);
+
+  useEffect(() => {
     if (mode === "ai") {
       const load = async () => {
         try {
           const res = await fetch(`${API_URL}/api/flashcards/ai`, {
             credentials: "include"
           });
-          if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+          if (!res.ok) throw new Error(`Request failed`);
           const data = await res.json();
           setAiCards(data);
         } catch (err) {
@@ -75,25 +69,19 @@ export default function Flashcards() {
     }
   }, [mode]);
 
-  const createManualCard = async () => {
-    try {
-      const res = await fetch(`${API_URL}/api/flashcards/manual`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ front: manualFront, back: manualBack })
-      });
-      if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+  const createManualCard = () => {
+    if (!manualFront.trim() || !manualBack.trim()) return;
 
-      const data = await res.json();
-      setManualCards(prev => [data, ...prev]);
-      setManualFront("");
-      setManualBack("");
-    } catch (err) {
-      console.error("Create manual card error:", err);
-    }
+    const newCard = {
+      _id: crypto.randomUUID(),
+      front: manualFront.trim(),
+      back: manualBack.trim()
+    };
+
+    setManualCards(prev => [newCard, ...prev]);
+    setManualFront("");
+    setManualBack("");
   };
-
 
   const generateAICard = async () => {
     try {
@@ -139,6 +127,15 @@ export default function Flashcards() {
           />
           <button onClick={createManualCard}>Add</button>
 
+          
+
+          <h3>Your Manual Flashcards</h3>
+          {manualCards.map(card => (
+            <div key={card._id} className="flashcard">
+              <h3>{card.front}</h3>
+              <p>{card.back}</p>
+            </div>
+          ))}
           <button
             onClick={() => {
               setStudyCards(manualCards);
@@ -148,14 +145,6 @@ export default function Flashcards() {
           >
             Start
           </button>
-
-          <h3>Your Manual Flashcards</h3>
-          {manualCards.map(card => (
-            <div key={card._id} className="flashcard">
-              <h3>{card.front}</h3>
-              <p>{card.back}</p>
-            </div>
-          ))}
         </div>
       )}
 
@@ -189,6 +178,7 @@ export default function Flashcards() {
           ))}
         </div>
       )}
+
       {mode === "saved" && (
         <div>
           <h2>Flashcards From Saved Words</h2>
@@ -200,7 +190,7 @@ export default function Flashcards() {
               setFlipped(false);
             }}
           >
-           Start
+            Start
           </button>
 
           {savedCards.length === 0 && <p>No saved words yet.</p>}
@@ -213,9 +203,9 @@ export default function Flashcards() {
           ))}
         </div>
       )}
+
       {studyCards.length > 0 && (
         <div style={{ marginTop: "40px" }}>
-
           <div
             onClick={() => setFlipped(!flipped)}
             style={{

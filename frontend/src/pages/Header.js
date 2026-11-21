@@ -5,6 +5,7 @@ export default function Header() {
     <header className="header">
 
       <nav className="nav-pills">
+        {/*<NavLink to="/Reader" end className="nav-pill">Reader</NavLink>*/}
         <NavLink to="/" end className="nav-pill">Translator</NavLink>
         <NavLink to="/chat" className="nav-pill">Chatbot</NavLink>
         <NavLink to="/SavedWords" className="nav-pill">SavedWords</NavLink>
