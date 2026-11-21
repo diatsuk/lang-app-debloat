@@ -33,6 +33,7 @@ app.use("/api/flashcards", require("./routes/flashcards"));
 app.use("/api/context", require("./routes/context"));
 app.use("/api/translate", require("./routes/translate"));
 app.use("/api/chat", require("./routes/chat"));
+app.use("/api/Reader", require("./routes/Reader"));
 
 app.get("/api/current_user", (req, res) => {
   if (!req.user) return res.json(null);
