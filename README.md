@@ -3,6 +3,9 @@
 A full-stack web application that helps users learn a new language through
 AI-generated practice and instant translation.
 
+here live: https://lang-app-debloat-4s8u3odan-diatsuk.vercel.app
+(can take up to a minute to startup)
+
 ## Features
 - **AI-powered learning:** uses the OpenAI API to [generate exercises / give
   feedback / hold practice conversations, pick what applies]
